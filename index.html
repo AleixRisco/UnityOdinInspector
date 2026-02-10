@@ -861,7 +861,12 @@ document.getElementById('savePNG').addEventListener('click', async () => {
   try {
     const canvas = await html2canvas(target, { scale, backgroundColor:'#282828', useCORS:true, logging:false });
     const a = document.createElement('a');
-    a.download = 'unity-inspector.png';
+
+    // Get class name for filename
+    const code = document.getElementById('codeEditor').value;
+    const parsed = parseCode(code);
+    a.download = parsed.className ? (parsed.className + '.png') : 'unity-inspector.png';
+
     a.href = canvas.toDataURL('image/png');
     a.click();
   } catch(e) { alert('Error al exportar: ' + e.message); }
